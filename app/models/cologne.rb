@@ -1,0 +1,2 @@
+class Cologne < ApplicationRecord
+end
