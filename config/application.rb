@@ -6,8 +6,6 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require "active_model/railtie"
-
 module Perfume
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
