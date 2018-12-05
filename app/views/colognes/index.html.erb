@@ -1,0 +1,155 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- BootstrapのCSS読み込み -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- jQuery読み込み -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+    <!-- BootstrapのJS読み込み -->
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+    
+  <title>香水メモ</title>
+  <style type="text/css">
+    .jumbotron {background: url("<%= asset_path "アロマオイル_l.jpg" %>") center no-repeat; background-size: cover;}
+  </style>
+</head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">Perfume</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="<%= root_path %>">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="<%= colognes_path %>">Search/Index <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<%= new_cologne_path %>">Add/Update</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="jumbotron">
+  <div class="container">
+    <h1>香水メモ</h1>
+    これまで購入した香水について整理。
+  </div>
+  <div class="container">
+    <h4>更新履歴</h4>
+    <ul>
+    <li>
+    <2018.11.25>サイト新規作成
+    </li>
+    </ul>
+  </div>
+</div>
+ <hr>
+<div class="container">
+  <h1>Cologne#index</h1>
+  <p>Find me in app/views/cologne/index.html.erb</p>
+  <div align="right">
+    <%= link_to "Add", new_cologne_path %>
+  </div>
+  <table class="table table-striped">
+  <thead>
+    <tr style="background-color: #F2EBF8">
+      <th scope="col">#</th>
+      <th scope="col">名前</th>
+      <th scope="col">メーカ</th>
+      <th scope="col">お気に入り</th>
+      <th scope="col">編集</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @colognes.each do |cologne| %>
+    <tr>
+      <td scope="row"><%= cologne.id %></td>
+      <td><%= cologne.name %></td>
+      <td><%= cologne.maker %></td>
+      <td><%= cologne.favourite %></td>
+      <td><%= link_to "Edit", edit_cologne_path(cologne.id) %> | 
+          <%= link_to "Delete", cologne_path(cologne.id), method: :delete, data: {confirm: "削除しますか？"} %></td>
+    </tr>
+  <% end %>
+  </tbody>
+  </table>
+</div>
+
+<div class="container">
+  <% @colognes.each do |cologne| %>
+  <div align="right">
+    <%= link_to "Edit", edit_cologne_path(cologne.id) %> | 
+    <%= link_to "Delete", cologne_path(cologne.id), method: :delete, data: {confirm: "削除しますか？"} %>
+  </div>
+  <div class="container bg-light border rounded">
+    <div class="row border-bottom table-bg-color">
+      <div class="col-1">
+       #
+      </div>
+      <div class="col-4">
+       名前
+      </div>
+      <div class="col-4">
+       メーカ
+      </div>
+      <div class="col-2">
+       お気に入り
+      </div>
+    </div>
+    <div class="row border-bottom">
+      <div class="col-1">
+        <%= cologne.id %>
+      </div>
+      <div class="col-4">
+        <%= cologne.name %>
+      </div>
+      <div class="col-4">
+        <%= cologne.maker %>
+      </div>
+      <div class="col-2">
+        <%= cologne.favourite %>
+      </div>
+    </div>
+    <div class="row border-bottom table-bg-color">
+      <div class="col-5">
+        写真
+      </div>
+      <div class="col">
+        感想
+      </div>
+    </div>
+    <div class="row border-bottom">
+      <div class="col-5">
+        <%= 
+        if cologne.picture != nil 
+          image_tag send_img_cologne_path(cologne.id), :class => "img-thumbnail"
+        end 
+        %>
+      </div>
+      <div class="col">
+        <%= cologne.note %>
+      </div>
+    </div>
+    <div class="row border-bottom table-bg-color">
+      <div class="col">
+        購入情報
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= cologne.info %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+<br>
